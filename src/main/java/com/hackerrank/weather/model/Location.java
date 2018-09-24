@@ -13,9 +13,9 @@ public class Location implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Column(name = "lat")
+	@Column(name = "lat",precision = 4)
 	private Float lat;
-	@Column(name = "lon")
+	@Column(name = "lon",precision = 4)
 	private Float lon;
 	@Column(name = "city")
     private String city;

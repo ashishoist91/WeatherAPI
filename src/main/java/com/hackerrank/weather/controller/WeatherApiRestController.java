@@ -1,9 +1,17 @@
 package com.hackerrank.weather.controller;
 
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +34,18 @@ public class WeatherApiRestController {
 	private WeatherRepository weatherRepository;
 	
 	@GetMapping("/weather")
-	public List<Weather> getAllWeather() {
-	    return weatherRepository.findAll();
+	public List<Weather> getAllWeather(@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ParseException {
+		if(date == null) {
+			Sort sort = new Sort(Sort.Direction.ASC, "id");
+			return weatherRepository.findAll(sort);
+		}
+		//weatherRepository.findAll(sort)
+		else {
+			//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			//String formattedString = date.format(formatter);
+			return weatherRepository.findByDate(date);
+		}
+	    
 	}
 	
 	
